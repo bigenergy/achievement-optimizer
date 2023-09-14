@@ -1,10 +1,12 @@
 package com.bigenergy.achiopt.mixins;
 
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.*;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,20 +65,16 @@ public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<Inventor
         });
     }
 
-    @Shadow
-    @Override
-    public InventoryChangeTrigger.TriggerInstance createInstance(JsonObject p_43168_, EntityPredicate.Composite p_43169_, DeserializationContext p_43170_) {
-        JsonObject jsonobject = GsonHelper.getAsJsonObject(p_43168_, "slots", new JsonObject());
-        MinMaxBounds.Ints minmaxbounds$ints = MinMaxBounds.Ints.fromJson(jsonobject.get("occupied"));
-        MinMaxBounds.Ints minmaxbounds$ints1 = MinMaxBounds.Ints.fromJson(jsonobject.get("full"));
-        MinMaxBounds.Ints minmaxbounds$ints2 = MinMaxBounds.Ints.fromJson(jsonobject.get("empty"));
-        ItemPredicate[] aitempredicate = ItemPredicate.fromJsonArray(p_43168_.get("items"));
-        return new InventoryChangeTrigger.TriggerInstance(p_43169_, minmaxbounds$ints, minmaxbounds$ints1, minmaxbounds$ints2, aitempredicate);
-    }
 
     @Shadow
     @Override
     public ResourceLocation getId() {
         return ID;
+    }
+
+    @Shadow
+    @Override
+    protected InventoryChangeTrigger.TriggerInstance createInstance(JsonObject p_66248_, ContextAwarePredicate p_286603_, DeserializationContext p_66250_) {
+        return null;
     }
 }
