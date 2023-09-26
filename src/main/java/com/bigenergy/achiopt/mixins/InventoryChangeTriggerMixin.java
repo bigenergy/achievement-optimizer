@@ -5,18 +5,17 @@ import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Optional;
+
 @Mixin(InventoryChangeTrigger.class)
 public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<InventoryChangeTrigger.TriggerInstance> {
 
-    @Shadow
-    static final ResourceLocation ID = new ResourceLocation("inventory_changed");
 
     private int ticksSkipped;
 
@@ -68,13 +67,7 @@ public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<Inventor
 
     @Shadow
     @Override
-    public ResourceLocation getId() {
-        return ID;
-    }
-
-    @Shadow
-    @Override
-    protected InventoryChangeTrigger.TriggerInstance createInstance(JsonObject p_66248_, ContextAwarePredicate p_286603_, DeserializationContext p_66250_) {
+    protected InventoryChangeTrigger.TriggerInstance createInstance(JsonObject p_66248_, Optional<ContextAwarePredicate> p_297533_, DeserializationContext p_66250_) {
         return null;
     }
 }
