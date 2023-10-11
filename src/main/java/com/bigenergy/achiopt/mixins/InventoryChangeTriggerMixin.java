@@ -1,5 +1,6 @@
 package com.bigenergy.achiopt.mixins;
 
+import com.bigenergy.achiopt.config.AchiOptConfig;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
@@ -22,7 +23,7 @@ public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<Inventor
 
     private boolean tryTick()
     {
-        int skipTicksAmount = 5;
+        int skipTicksAmount = AchiOptConfig.general.skipTicksAdvancements.get();
         if (skipTicksAmount <= 0)
             return true;
 
