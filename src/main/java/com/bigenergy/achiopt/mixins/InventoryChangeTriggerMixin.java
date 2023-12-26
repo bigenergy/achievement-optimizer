@@ -1,9 +1,7 @@
 package com.bigenergy.achiopt.mixins;
 
 import com.bigenergy.achiopt.config.AchiOptConfig;
-import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.DeserializationContext;
+import com.mojang.serialization.Codec;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,8 +9,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
-import java.util.Optional;
 
 @Mixin(InventoryChangeTrigger.class)
 public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<InventoryChangeTrigger.TriggerInstance> {
@@ -66,9 +62,9 @@ public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<Inventor
     }
 
 
+
     @Shadow
-    @Override
-    protected InventoryChangeTrigger.TriggerInstance createInstance(JsonObject p_66248_, Optional<ContextAwarePredicate> p_297533_, DeserializationContext p_66250_) {
+    public Codec<InventoryChangeTrigger.TriggerInstance> codec() {
         return null;
     }
 }
