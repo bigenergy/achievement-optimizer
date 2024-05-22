@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "AchievementOptimizer.refmap.json",
   "mixins": [
+    "InventoryChangeTriggerInstanceMixin",
     "InventoryChangeTriggerMixin",
     "ItemPredicateMixin"
   ],
