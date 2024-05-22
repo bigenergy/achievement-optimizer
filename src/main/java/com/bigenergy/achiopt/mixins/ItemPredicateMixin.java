@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 import java.util.Set;
 
-@Mixin(ItemPredicate.class)
+@Mixin(value = ItemPredicate.class, remap = false)
 public class ItemPredicateMixin {
 
     @Shadow
