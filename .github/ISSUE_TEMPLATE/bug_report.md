@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Version (please complete the following information):**\
  - Mod Version [1.0.0, etc.]
- - Forge Version [82.0.81, etc.]
+ - Forge/NeoForge Version [82.0.81, etc.]
 
 **Additional context**
 Add any other context about the problem here, crash report and logs.
