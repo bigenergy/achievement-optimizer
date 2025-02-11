@@ -15,14 +15,19 @@ public class AchiOptConfig
             .comment("Number of ticks to skip to check achievements [0 for disable skip]")
             .defineInRange("skipTicksAdvancements", 5, 0, Integer.MAX_VALUE);
 
+    private static final ModConfigSpec.BooleanValue IGNORE_EMPTY_STACKS = BUILDER
+            .comment("Ignore empty stacks for inventory checks")
+            .define("ignoreEmptyStacks", true);
+
 
     public static final ModConfigSpec SPEC = BUILDER.build();
     public static int skipTicksAdvancements;
+    public static Boolean ignoreEmptyStacks;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
         skipTicksAdvancements = SKIP_TICKS_ADVANCEMENTS.get();
-
+        ignoreEmptyStacks = IGNORE_EMPTY_STACKS.get();
     }
 }
