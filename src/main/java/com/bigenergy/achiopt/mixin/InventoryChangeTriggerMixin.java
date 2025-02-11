@@ -21,7 +21,8 @@ public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<Inventor
     @Unique
     private int achievementOptimizer$ticksSkipped;
 
-    private boolean tryTick()
+    @Unique
+    private boolean achievementOptimizer$tryTick()
     {
         int skipTicksAmount = AchiOptConfig.skipTicksAdvancements;
         if (skipTicksAmount <= 0)
@@ -44,7 +45,7 @@ public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<Inventor
         if (p_43152_.isEmpty() && AchiOptConfig.ignoreEmptyStacks) {
             ci.cancel();
         }
-        if (!this.tryTick()) {
+        if (!this.achievementOptimizer$tryTick()) {
             ci.cancel();
         }
     }
