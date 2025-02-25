@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "achiopt",
+  "version": "${version}",
+  "name": "AchievementOptimizer",
+  "description": "Performance optimizer for Achievements",
+  "authors": [
+    "Big_Energy"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/achievements-optimizer"
+  },
+  "license": "MIT",
+  "icon": "assets/achiopt/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.bigenergy.achiopt.fabric.AchioptFabric"
+    ],
+    "client": [
+      "com.bigenergy.achiopt.fabric.client.AchioptFabricClient"
+    ]
+  },
+  "mixins": [
+    "achiopt.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "architectury": ">=13.0.8",
+    "fabric-api": "*",
+    "forgeconfigapiport": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
