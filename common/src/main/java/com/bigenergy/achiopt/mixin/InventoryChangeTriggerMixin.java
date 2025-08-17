@@ -1,57 +1,42 @@
 package com.bigenergy.achiopt.mixin;
 
 import com.bigenergy.achiopt.Achiopt;
-import com.mojang.serialization.Codec;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Input optimization:
+ * - optionally ignore empty stacks (less pointless passes);
+ * - process not every tick, but once every N ticks (before calculating full/empty/occupied).
+ */
 @Mixin(InventoryChangeTrigger.class)
-public class InventoryChangeTriggerMixin extends SimpleCriterionTrigger<InventoryChangeTrigger.TriggerInstance> {
+public class InventoryChangeTriggerMixin {
 
-
-    @Unique
-    private int achievementOptimizer$ticksSkipped;
-
-    @Unique
-    private boolean achievementOptimizer$tryTick()
-    {
-        int skipTicksAmount = Achiopt.CONFIG.skipTicksAdvancements.get();
-        if (skipTicksAmount <= 0)
-            return true;
-
-        this.achievementOptimizer$ticksSkipped++;
-        if (this.achievementOptimizer$ticksSkipped > skipTicksAmount)
-        {
-            this.achievementOptimizer$ticksSkipped = 0;
-            return true;
-        }
-
-        return false;
-    }
-
-
-    @Inject(method = "trigger(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/item/ItemStack;)V",
-            at = @At(value = "HEAD"), cancellable = true)
-    public void trigger(ServerPlayer p_43150_, Inventory p_43151_, ItemStack p_43152_, CallbackInfo ci) {
-        if (p_43152_.isEmpty() && Achiopt.CONFIG.ignoreEmptyStacks.get()) {
+    @Inject(
+            method = "trigger(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/item/ItemStack;)V",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void achiopt$gate(ServerPlayer player, Inventory inv, ItemStack changed, CallbackInfo ci) {
+        // 1) ignore empty stacks
+        if (Achiopt.CONFIG.ignoreEmptyStacks.get() && changed.isEmpty()) {
             ci.cancel();
+            return;
         }
-        if (!this.achievementOptimizer$tryTick()) {
-            ci.cancel();
-        }
-    }
 
-    @Shadow
-    public Codec<InventoryChangeTrigger.TriggerInstance> codec() {
-        return null;
+        // 2) skipping ticks BEFORE heavy i/j/k counting
+        int skip = Achiopt.CONFIG.skipTicksAdvancements.get();
+        if (skip > 0) {
+            int now = player.getServer().getTickCount();
+            if ((now % skip) != 0) {
+                ci.cancel();
+            }
+        }
     }
 }
