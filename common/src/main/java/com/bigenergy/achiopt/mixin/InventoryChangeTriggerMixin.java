@@ -33,7 +33,7 @@ public class InventoryChangeTriggerMixin {
         // 2) skipping ticks BEFORE heavy i/j/k counting
         int skip = Achiopt.CONFIG.skipTicksAdvancements.get();
         if (skip > 0) {
-            int now = player.getServer().getTickCount();
+            int now = player.level().getServer().getTickCount();
             if ((now % skip) != 0) {
                 ci.cancel();
             }
