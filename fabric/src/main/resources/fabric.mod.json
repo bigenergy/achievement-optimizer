@@ -25,10 +25,10 @@
     "achiopt.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.17.2",
-    "minecraft": "~1.21.9",
+    "fabricloader": ">=0.17.3",
+    "minecraft": "~1.21.10",
     "java": ">=21",
-    "architectury": ">=18.0.3",
+    "architectury": ">=18.0.5",
     "fabric-api": "*",
     "forgeconfigapiport": "*"
   },
